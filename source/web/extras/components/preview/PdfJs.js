@@ -184,7 +184,14 @@
           * @default "true"
           */
          useLocalStorage : "true",
-
+         
+         /**
+          * Check if save the properties persist by document or for all document
+          * @property useLocalStorageByDocument
+          * @type String
+          * @default "false"
+          */
+         useLocalStorageByDocument:false,
          /**
           * If the user came from the search page, should the search feature be automatically triggered?
           * 
@@ -1237,7 +1244,10 @@
          }
          else
          {
-            var base = "org.sharextras.media-viewers.pdfjs.document." + this.wp.options.nodeRef.replace(":/", "").replace("/", ".") + ".";
+            var base = "org.sharextras.media-viewers.pdfjs.document" ;
+            if(this.attributes.useLocalStorageByDocument != "true"){
+            	base = base + "." + this.wp.options.nodeRef.replace(":/", "").replace("/", ".") + ".";
+            }
             this.documentConfig = {
                pageNum : window.localStorage[base + "pageNum"],
                scale : window.localStorage[base + "scale"],
@@ -1850,7 +1860,11 @@
       {
          if (this.attributes.useLocalStorage == "true" && this._browserSupportsHtml5Storage() && this.documentView)
          {
-            var base = "org.sharextras.media-viewers.pdfjs.document." + this.wp.options.nodeRef.replace(":/", "").replace("/", ".") + ".";
+            var base = "org.sharextras.media-viewers.pdfjs.document";
+            	
+            if(this.attributes.useLocalStorageByDocument != "true"){
+            	base = base + "." + this.wp.options.nodeRef.replace(":/", "").replace("/", ".") + ".";
+            }
             if (this.pageNum)
             {
                window.localStorage[base + "pageNum"] = this.pageNum;
